@@ -92,7 +92,7 @@ PanelWindow {
             SessionButton {
                 id: btnReboot
                 text: "Reboot"
-                iconSource: "../../assets/reboot.svg"
+                iconGlyph: Icons.rotateCw
                 KeyNavigation.right: btnPowerOff
                 KeyNavigation.down: btnSleep
                 onClicked: {
@@ -112,7 +112,7 @@ PanelWindow {
             SessionButton {
                 id: btnPowerOff
                 text: "PowerOff"
-                iconSource: "../../assets/poweroff.svg"
+                iconGlyph: Icons.power
                 KeyNavigation.left: btnReboot
                 KeyNavigation.right: btnLogout
                 KeyNavigation.down: btnGif
@@ -133,7 +133,7 @@ PanelWindow {
             SessionButton {
                 id: btnLogout
                 text: "Logout"
-                iconSource: "../../assets/logout.svg"
+                iconGlyph: Icons.logOut
                 KeyNavigation.left: btnPowerOff
                 KeyNavigation.down: btnLock
                 onClicked: {
@@ -153,7 +153,7 @@ PanelWindow {
             SessionButton {
                 id: btnSleep
                 text: "SleepMode"
-                iconSource: "../../assets/sleepmode.svg"
+                iconGlyph: Icons.moon
                 KeyNavigation.up: btnReboot
                 KeyNavigation.right: btnGif
                 onClicked: {
@@ -195,7 +195,7 @@ PanelWindow {
             SessionButton {
                 id: btnLock
                 text: "ScreenLock"
-                iconSource: "../../assets/lockscreen.svg"
+                iconGlyph: Icons.lockKeyhole
                 KeyNavigation.up: btnLogout
                 KeyNavigation.left: btnGif
                 onClicked: {

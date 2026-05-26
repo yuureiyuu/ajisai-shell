@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Wayland
 import "../../services"
+import "../../components"
 
 PanelWindow {
     id: root
@@ -226,10 +227,12 @@ PanelWindow {
                         anchors.rightMargin: 14
                         spacing: 10
 
-                        Text {
-                            text: ">"
-                            color: Theme.subtext
-                            font.pixelSize: 16
+                        LucideIcon {
+                            Layout.preferredWidth: 20
+                            Layout.preferredHeight: 20
+                            icon: Icons.search
+                            iconSize: 18
+                            color: Theme.iconMuted
                         }
 
                         TextField {
@@ -237,7 +240,7 @@ PanelWindow {
 
                             Layout.fillWidth: true
                             color: Theme.text
-                            placeholderText: "Поиск приложений или :wal"
+                            placeholderText: "Search apps or :wal"
                             placeholderTextColor: Theme.subtext
                             background: Item {}
                             selectByMouse: true
@@ -276,11 +279,11 @@ PanelWindow {
                             radius: 0
                             color: clearMouseArea.containsMouse ? Theme.surface : "transparent"
 
-                            Text {
+                            LucideIcon {
                                 anchors.centerIn: parent
-                                text: "x"
-                                color: Theme.text
-                                font.pixelSize: 13
+                                icon: Icons.circleX
+                                iconSize: 15
+                                color: Theme.icon
                             }
 
                             MouseArea {

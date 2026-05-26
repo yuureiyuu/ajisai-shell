@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.SystemTray
+import "../../components"
+import "../../services"
 
 ColumnLayout {
     id: root
@@ -45,15 +47,14 @@ ColumnLayout {
         }
     }
 
-    Image {
+    LucideIcon {
         id: toggleIcon
         Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: 30
-        Layout.preferredHeight: 30
-        source: root.isOpen ? "../../assets/eye-open.svg" : "../../assets/eye-closed.svg"
-        fillMode: Image.PreserveAspectFit
-        smooth: true
-        mipmap: true
+        Layout.preferredWidth: 24
+        Layout.preferredHeight: 24
+        iconSize: 23
+        icon: root.isOpen ? Icons.eye : Icons.eyeOff
+        color: toggleMouse.containsMouse ? Theme.iconActive : Theme.icon
         opacity: toggleMouse.containsMouse ? 1.0 : 0.82
 
         MouseArea {

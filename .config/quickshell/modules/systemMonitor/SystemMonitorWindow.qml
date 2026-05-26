@@ -290,12 +290,9 @@ PanelWindow {
                             Layout.fillHeight: true
                         }
 
-                        Text {
+                        Item {
                             Layout.fillWidth: true
-                            text: SystemStats.lastKillResult.length ? SystemStats.lastKillResult : "Press Esc to close"
-                            color: Theme.subtext
-                            font.pixelSize: 12
-                            wrapMode: Text.WordWrap
+                            Layout.preferredHeight: 12
                         }
                     }
                 }

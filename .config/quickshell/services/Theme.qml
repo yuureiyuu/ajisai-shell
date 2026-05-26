@@ -41,6 +41,14 @@ Singleton {
     property color accent: root.accentHex
     property color accent2: root.accent2Hex
     property color border: root.borderHex
+    property color icon: root.mixColor(root.text, root.accent, 0.18)
+    property color iconMuted: root.mixColor(root.subtext, root.accent, 0.10)
+    property color iconActive: root.mixColor(root.text, root.accent, 0.34)
+
+    function mixColor(baseColor, tintColor, amount) {
+        const ratio = Math.max(0, Math.min(1, amount));
+        return Qt.rgba(baseColor.r + (tintColor.r - baseColor.r) * ratio, baseColor.g + (tintColor.g - baseColor.g) * ratio, baseColor.b + (tintColor.b - baseColor.b) * ratio, baseColor.a + (tintColor.a - baseColor.a) * ratio);
+    }
 
     function applyPalette(payload) {
         if (!payload || !payload.length)

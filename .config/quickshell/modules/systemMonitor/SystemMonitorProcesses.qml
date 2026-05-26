@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../../services"
+import "../../components"
 
 Item {
     id: root
@@ -163,10 +164,12 @@ Item {
                     anchors.rightMargin: 10
                     spacing: 10
 
-                    Text {
-                        text: ">"
-                        color: Theme.subtext
-                        font.pixelSize: 16
+                    LucideIcon {
+                        Layout.preferredWidth: 20
+                        Layout.preferredHeight: 20
+                        icon: Icons.search
+                        iconSize: 18
+                        color: Theme.iconMuted
                     }
 
                     TextField {
@@ -174,7 +177,7 @@ Item {
 
                         Layout.fillWidth: true
                         color: Theme.text
-                        placeholderText: "Поиск по PID, имени, состоянию или команде"
+                        placeholderText: "Search by PID, name, state, or command"
                         placeholderTextColor: Theme.subtext
                         background: Item {}
                         selectByMouse: true
@@ -210,11 +213,11 @@ Item {
                         radius: 4
                         color: clearSearchArea.containsMouse ? Theme.surface2 : "transparent"
 
-                        Text {
+                        LucideIcon {
                             anchors.centerIn: parent
-                            text: "x"
-                            color: Theme.text
-                            font.pixelSize: 13
+                            icon: Icons.circleX
+                            iconSize: 15
+                            color: Theme.icon
                         }
 
                         MouseArea {
@@ -491,12 +494,11 @@ Item {
                                     border.width: 1
                                     border.color: Qt.rgba(0.95, 0.42, 0.48, 0.36)
 
-                                    Text {
+                                    LucideIcon {
                                         anchors.centerIn: parent
-                                        text: "x"
+                                        icon: Icons.circleX
+                                        iconSize: 14
                                         color: "#f38ba8"
-                                        font.pixelSize: 13
-                                        font.weight: Font.Bold
                                     }
 
                                     MouseArea {

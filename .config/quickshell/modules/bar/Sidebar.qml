@@ -18,7 +18,7 @@ PanelWindow {
 
     RectangularShadow {
         anchors.fill: barSurface
-        radius: 0
+        radius: barSurface.radius
         blur: 14
         spread: 0
         offset: Qt.vector2d(-2, 0)
@@ -34,9 +34,9 @@ PanelWindow {
             bottom: parent.bottom
             right: parent.right
         }
-        width: 65
+        width: 69
         color: Qt.alpha(Theme.mantle, 0.94)
-        radius: 0
+        radius: 4
         border.width: 0
 
         Rectangle {

@@ -12,6 +12,8 @@ Item {
         anchors.centerIn: parent
         width: 35
         height: 38
+        sourceSize.width: 96
+        sourceSize.height: 110
         opacity: mouseArea.containsMouse ? 1.0 : 0.8
         smooth: true
         mipmap: true

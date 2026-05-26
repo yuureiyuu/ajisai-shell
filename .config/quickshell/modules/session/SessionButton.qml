@@ -1,11 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 import "../../services"
+import "../../components"
 
 Item {
     id: root
     property string text: ""
     property var iconSource: ""
+    property string iconGlyph: ""
     property bool isGif: false
     signal clicked
     signal hoverEntered
@@ -47,7 +49,7 @@ Item {
         anchors.centerIn: parent
         width: 64
         height: 64
-        scale: root.active ? 1.1 : 1.0
+        scale: root.iconGlyph.length ? 1.0 : (root.active ? 1.1 : 1.0)
         Behavior on scale {
             NumberAnimation {
                 duration: 150
@@ -57,7 +59,24 @@ Item {
 
         Loader {
             anchors.fill: parent
-            sourceComponent: root.isGif ? gifComponent : imgComponent
+            sourceComponent: root.isGif ? gifComponent : (root.iconGlyph.length ? iconComponent : imgComponent)
+        }
+    }
+
+    Component {
+        id: iconComponent
+        LucideIcon {
+            anchors.fill: parent
+            icon: root.iconGlyph
+            iconSize: root.active ? 60 : 54
+            color: root.active ? Theme.iconActive : Theme.icon
+
+            Behavior on iconSize {
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutQuad
+                }
+            }
         }
     }
 
@@ -65,8 +84,8 @@ Item {
         id: imgComponent
         Image {
             source: root.iconSource
-            sourceSize.width: 64
-            sourceSize.height: 64
+            sourceSize.width: 160
+            sourceSize.height: 160
             fillMode: Image.PreserveAspectFit
             smooth: true
             mipmap: true
