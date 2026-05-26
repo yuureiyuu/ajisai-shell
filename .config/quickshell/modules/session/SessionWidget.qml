@@ -18,20 +18,62 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
-    color: Theme.mantle
+    color: "transparent"
     visible: false
+    property int selectedIndex: 0
+    readonly property var sessionButtons: [btnReboot, btnPowerOff, btnLogout, btnSleep, btnGif, btnLock]
+
+    function dismiss() {
+        visible = false;
+    }
+
+    function selectButton(index) {
+        if (index < 0 || index >= sessionButtons.length)
+            return;
+
+        selectedIndex = index;
+        sessionButtons[index].forceActiveFocus();
+        currentAction.text = sessionButtons[index].text;
+    }
+
+    function moveSelection(delta) {
+        const next = (selectedIndex + delta + sessionButtons.length) % sessionButtons.length;
+        selectButton(next);
+    }
+
+    function activateSelected() {
+        sessionButtons[selectedIndex].clicked();
+    }
 
     Rectangle {
         id: backdrop
         anchors.fill: parent
-        color: Theme.mantle
+        color: "transparent"
         focus: root.visible
 
-        Keys.onEscapePressed: root.visible = false
+        Keys.onEscapePressed: root.dismiss()
+        Keys.onPressed: event => {
+            if (event.key === Qt.Key_Left) {
+                root.moveSelection(-1);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Right) {
+                root.moveSelection(1);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Up) {
+                root.moveSelection(-3);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Down) {
+                root.moveSelection(3);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_Space) {
+                root.activateSelected();
+                event.accepted = true;
+            }
+        }
 
         MouseArea {
             anchors.fill: parent
-            onClicked: root.visible = false
+            onClicked: root.dismiss()
         }
     }
 
@@ -54,15 +96,17 @@ PanelWindow {
                 KeyNavigation.right: btnPowerOff
                 KeyNavigation.down: btnSleep
                 onClicked: {
-                    root.visible = false;
+                    root.dismiss();
                     SessionActions.reboot();
                 }
-                onHoverEntered: currentAction.text = text
+                onEscapePressed: root.dismiss()
+                onHoverEntered: root.selectButton(0)
                 onHoverExited: if (!btnReboot.activeFocus)
                     currentAction.text = ""
-                onActiveFocusChanged: if (activeFocus)
+                onActiveFocusChanged: if (activeFocus) {
+                    root.selectedIndex = 0;
                     currentAction.text = text
-                focus: true
+                }
             }
 
             SessionButton {
@@ -73,14 +117,17 @@ PanelWindow {
                 KeyNavigation.right: btnLogout
                 KeyNavigation.down: btnGif
                 onClicked: {
-                    root.visible = false;
+                    root.dismiss();
                     SessionActions.poweroff();
                 }
-                onHoverEntered: currentAction.text = text
+                onEscapePressed: root.dismiss()
+                onHoverEntered: root.selectButton(1)
                 onHoverExited: if (!btnPowerOff.activeFocus)
                     currentAction.text = ""
-                onActiveFocusChanged: if (activeFocus)
+                onActiveFocusChanged: if (activeFocus) {
+                    root.selectedIndex = 1;
                     currentAction.text = text
+                }
             }
 
             SessionButton {
@@ -90,14 +137,17 @@ PanelWindow {
                 KeyNavigation.left: btnPowerOff
                 KeyNavigation.down: btnLock
                 onClicked: {
-                    root.visible = false;
+                    root.dismiss();
                     SessionActions.logout();
                 }
-                onHoverEntered: currentAction.text = text
+                onEscapePressed: root.dismiss()
+                onHoverEntered: root.selectButton(2)
                 onHoverExited: if (!btnLogout.activeFocus)
                     currentAction.text = ""
-                onActiveFocusChanged: if (activeFocus)
+                onActiveFocusChanged: if (activeFocus) {
+                    root.selectedIndex = 2;
                     currentAction.text = text
+                }
             }
 
             SessionButton {
@@ -107,14 +157,17 @@ PanelWindow {
                 KeyNavigation.up: btnReboot
                 KeyNavigation.right: btnGif
                 onClicked: {
-                    root.visible = false;
+                    root.dismiss();
                     SessionActions.suspend();
                 }
-                onHoverEntered: currentAction.text = text
+                onEscapePressed: root.dismiss()
+                onHoverEntered: root.selectButton(3)
                 onHoverExited: if (!btnSleep.activeFocus)
                     currentAction.text = ""
-                onActiveFocusChanged: if (activeFocus)
+                onActiveFocusChanged: if (activeFocus) {
+                    root.selectedIndex = 3;
                     currentAction.text = text
+                }
             }
 
             SessionButton {
@@ -127,13 +180,16 @@ PanelWindow {
                 KeyNavigation.right: btnLock
                 onClicked: {
                     console.log("Ougi sees you.");
-                    root.visible = false;
+                    root.dismiss();
                 }
-                onHoverEntered: currentAction.text = text
+                onEscapePressed: root.dismiss()
+                onHoverEntered: root.selectButton(4)
                 onHoverExited: if (!btnGif.activeFocus)
                     currentAction.text = ""
-                onActiveFocusChanged: if (activeFocus)
+                onActiveFocusChanged: if (activeFocus) {
+                    root.selectedIndex = 4;
                     currentAction.text = text
+                }
             }
 
             SessionButton {
@@ -143,14 +199,17 @@ PanelWindow {
                 KeyNavigation.up: btnLogout
                 KeyNavigation.left: btnGif
                 onClicked: {
-                    root.visible = false;
+                    root.dismiss();
                     SessionActions.lock();
                 }
-                onHoverEntered: currentAction.text = text
+                onEscapePressed: root.dismiss()
+                onHoverEntered: root.selectButton(5)
                 onHoverExited: if (!btnLock.activeFocus)
                     currentAction.text = ""
-                onActiveFocusChanged: if (activeFocus)
+                onActiveFocusChanged: if (activeFocus) {
+                    root.selectedIndex = 5;
                     currentAction.text = text
+                }
             }
         }
 
@@ -168,7 +227,7 @@ PanelWindow {
 
     onVisibleChanged: {
         if (visible) {
-            btnReboot.forceActiveFocus();
+            root.selectButton(0);
         }
     }
 

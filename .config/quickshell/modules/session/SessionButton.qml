@@ -10,10 +10,12 @@ Item {
     signal clicked
     signal hoverEntered
     signal hoverExited
+    signal escapePressed
 
     property bool focused: activeFocus
     property bool hovered: mouseArea.containsMouse
     property bool active: focused || hovered
+    focus: true
 
     width: 100
     height: 100
@@ -21,7 +23,7 @@ Item {
     Rectangle {
         id: bg
         anchors.fill: parent
-        radius: 0
+        radius: 4
         color: root.active ? Theme.surface : Theme.base
 
         Behavior on color {
@@ -92,6 +94,9 @@ Item {
     Keys.onPressed: event => {
         if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_Space) {
             root.clicked();
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Escape) {
+            root.escapePressed();
             event.accepted = true;
         }
     }

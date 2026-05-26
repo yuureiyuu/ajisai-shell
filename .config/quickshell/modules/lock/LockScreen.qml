@@ -214,11 +214,20 @@ Scope {
                     anchors.centerIn: parent
                     width: Math.min(parent.width - 80, 1080 * root.layoutScale)
                     height: Math.min(parent.height - 80, 660 * root.layoutScale)
-                    radius: 0
-                    color: Theme.mantle
-                    border.width: 2
-                    border.color: Theme.surface2
+                    radius: 4
+                    color: Theme.base
+                    border.width: 1
+                    border.color: Theme.border
                     clip: true
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        radius: Math.max(0, parent.radius - 1)
+                        color: "transparent"
+                        border.width: 1
+                        border.color: Qt.alpha(Theme.text, 0.04)
+                    }
 
                     RowLayout {
                         anchors.fill: parent

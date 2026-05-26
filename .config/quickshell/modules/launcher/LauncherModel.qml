@@ -25,7 +25,18 @@ Item {
     readonly property bool wallpaperMode: /^:(w|wal|wall|wallpaper)\b/i.test(query)
     readonly property string wallpaperQuery: wallpaperMode ? query.replace(/^:(w|wal|wall|wallpaper)\b\s*/i, "") : ""
     readonly property string appQuery: wallpaperMode ? "" : query
-    readonly property var allApps: Array.from(DesktopEntries.applications.values).filter((app, index, list) => index === list.findIndex(other => other.id === app.id)).sort((a, b) => a.name.localeCompare(b.name))
+    readonly property var internalApps: [
+        {
+            id: "quickshell-system-monitor",
+            name: "System Monitor",
+            genericName: "Resource Monitor",
+            comment: "System and process monitoring",
+            icon: "utilities-system-monitor",
+            keywords: ["system", "monitor", "btop", "top", "process", "процессы", "ресурсы"],
+            execute: () => Quickshell.execDetached(["bash", "-lc", "qs ipc call systemMonitor toggle >/dev/null 2>&1 || quickshell ipc call systemMonitor toggle >/dev/null 2>&1"])
+        }
+    ]
+    readonly property var allApps: internalApps.concat(Array.from(DesktopEntries.applications.values)).filter((app, index, list) => index === list.findIndex(other => other.id === app.id)).sort((a, b) => a.name.localeCompare(b.name))
     readonly property var filteredApps: allApps.map(app => ({
                 score: root.appScore(app, appQuery),
                 entry: app

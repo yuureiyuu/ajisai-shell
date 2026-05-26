@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Io
 
 Scope {
     id: root
@@ -40,6 +41,22 @@ Scope {
         active: root.visibleState
         sourceComponent: SystemMonitorWindow {
             monitor: root
+        }
+    }
+
+    IpcHandler {
+        target: "systemMonitor"
+
+        function toggle(): void {
+            root.toggle();
+        }
+
+        function show(): void {
+            root.show();
+        }
+
+        function close(): void {
+            root.close();
         }
     }
 

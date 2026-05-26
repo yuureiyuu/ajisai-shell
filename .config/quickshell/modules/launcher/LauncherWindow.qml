@@ -47,7 +47,7 @@ PanelWindow {
             property real shownBottomMargin: 72
             width: Math.min(parent.width - 48, 640)
             height: dataModel && dataModel.wallpaperMode ? 210 : Math.min(parent.height * 0.72, 560)
-            radius: 0
+            radius: 4
             color: Theme.base
             border.width: 1
             border.color: Theme.border
@@ -88,21 +88,6 @@ PanelWindow {
                 anchors.fill: parent
                 radius: launcherCard.radius
                 color: Theme.base
-
-                Rectangle {
-                    anchors.fill: parent
-                    radius: parent.radius
-                    gradient: Gradient {
-                        GradientStop {
-                            position: 0
-                            color: Theme.surface
-                        }
-                        GradientStop {
-                            position: 1
-                            color: Theme.mantle
-                        }
-                    }
-                }
             }
 
             ColumnLayout {

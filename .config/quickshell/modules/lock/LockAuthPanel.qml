@@ -18,18 +18,19 @@ Rectangle {
 
     signal submitRequested
 
-    radius: 0
+    radius: 4
     color: Theme.surface
     border.width: 1
-    border.color: Theme.surface2
+    border.color: Theme.border
     clip: true
 
     Rectangle {
         anchors.fill: parent
         anchors.margins: 1
+        radius: Math.max(0, parent.radius - 1)
         color: "transparent"
         border.width: 1
-        border.color: Qt.alpha(Theme.text, 0.08)
+        border.color: Qt.alpha(Theme.text, 0.04)
     }
 
     Rectangle {
@@ -37,7 +38,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: parent.top
         height: 1
-        color: Qt.alpha(Theme.accent, 0.24)
+        color: Qt.alpha(Theme.text, 0.08)
     }
 
     ColumnLayout {
@@ -65,7 +66,7 @@ Rectangle {
                         color: "white"
                         font.pixelSize: 74 * root.uiScale
                         font.weight: Font.DemiBold
-                        font.letterSpacing: -3
+                        font.letterSpacing: 0
                     }
 
                     ColumnLayout {
@@ -108,6 +109,14 @@ Rectangle {
                     color: Theme.base
                     border.width: 0
                     clip: true
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: width / 2
+                        color: "transparent"
+                        border.width: 1
+                        border.color: Qt.alpha(Theme.text, 0.10)
+                    }
 
                     Image {
                         id: avatarImage
@@ -158,10 +167,10 @@ Rectangle {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: 4 * root.uiScale
                     Layout.fillWidth: true
-                    radius: 0
+                    radius: 4
                     color: Theme.base
                     border.width: 1
-                    border.color: root.passwordActive ? Theme.accent : Theme.surface2
+                    border.color: root.passwordActive ? Theme.accent : Theme.border
                     implicitHeight: 54 * root.uiScale
 
                     Item {
@@ -200,15 +209,37 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
                             width: parent.actionButtonSize
                             height: parent.actionButtonSize
-                            radius: 0
+                            radius: 4
                             color: root.passwordBufferLength ? Theme.accent : Theme.base
 
-                            Text {
+                            Item {
                                 anchors.centerIn: parent
-                                text: ">"
-                                color: root.passwordBufferLength ? Theme.mantle : "white"
-                                font.pixelSize: 16 * root.uiScale
-                                font.weight: Font.Bold
+                                width: 10 * root.uiScale
+                                height: 14 * root.uiScale
+
+                                readonly property color arrowColor: root.passwordBufferLength ? Theme.mantle : Theme.text
+
+                                Rectangle {
+                                    width: 2 * root.uiScale
+                                    height: 9 * root.uiScale
+                                    radius: 1 * root.uiScale
+                                    color: parent.arrowColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.verticalCenterOffset: -3 * root.uiScale
+                                    rotation: -45
+                                }
+
+                                Rectangle {
+                                    width: 2 * root.uiScale
+                                    height: 9 * root.uiScale
+                                    radius: 1 * root.uiScale
+                                    color: parent.arrowColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.verticalCenterOffset: 3 * root.uiScale
+                                    rotation: 45
+                                }
                             }
 
                             MouseArea {
@@ -245,8 +276,8 @@ Rectangle {
                         height: 12 * root.uiScale
                         rotation: 45
                         color: swatch.index === 0 ? Theme.swatch0 : swatch.index === 1 ? Theme.swatch1 : swatch.index === 2 ? Theme.swatch2 : swatch.index === 3 ? Theme.swatch3 : swatch.index === 4 ? Theme.swatch4 : swatch.index === 5 ? Theme.swatch5 : swatch.index === 6 ? Theme.swatch6 : Theme.swatch7
-                        border.width: 1
-                        border.color: Qt.alpha(Theme.text, 0.26)
+                        opacity: 0.68
+                        border.width: 0
                         antialiasing: true
                     }
                 }

@@ -14,18 +14,19 @@ ColumnLayout {
     Rectangle {
         Layout.fillWidth: true
         Layout.preferredHeight: 138 * root.uiScale
-        radius: 0
+        radius: 4
         color: Theme.surface
         border.width: 1
-        border.color: Theme.surface2
+        border.color: Theme.border
         clip: true
 
         Rectangle {
             anchors.fill: parent
             anchors.margins: 1
+            radius: Math.max(0, parent.radius - 1)
             color: "transparent"
             border.width: 1
-            border.color: Qt.alpha(Theme.text, 0.07)
+            border.color: Qt.alpha(Theme.text, 0.04)
         }
 
         Rectangle {
@@ -33,7 +34,7 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.top: parent.top
             height: 1
-            color: Qt.alpha(Theme.accent, 0.18)
+            color: Qt.alpha(Theme.text, 0.08)
         }
 
         Rectangle {
@@ -41,7 +42,7 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             height: 1
-            color: Qt.rgba(0, 0, 0, 0.24)
+            color: Qt.rgba(0, 0, 0, 0.18)
         }
 
         ColumnLayout {
@@ -114,18 +115,19 @@ ColumnLayout {
     Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        radius: 0
+        radius: 4
         color: Theme.surface
         border.width: 1
-        border.color: Theme.surface2
+        border.color: Theme.border
         clip: true
 
         Rectangle {
             anchors.fill: parent
             anchors.margins: 1
+            radius: Math.max(0, parent.radius - 1)
             color: "transparent"
             border.width: 1
-            border.color: Qt.alpha(Theme.text, 0.07)
+            border.color: Qt.alpha(Theme.text, 0.04)
         }
 
         Rectangle {
@@ -133,7 +135,7 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.top: parent.top
             height: 1
-            color: Qt.alpha(Theme.accent2, 0.18)
+            color: Qt.alpha(Theme.text, 0.08)
         }
 
         Rectangle {
@@ -141,7 +143,7 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             height: 1
-            color: Qt.rgba(0, 0, 0, 0.24)
+            color: Qt.rgba(0, 0, 0, 0.18)
         }
 
         ColumnLayout {

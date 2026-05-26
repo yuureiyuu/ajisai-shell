@@ -16,7 +16,7 @@ Rectangle {
 
     Layout.fillWidth: true
     Layout.preferredHeight: 48 * root.uiScale
-    radius: 0
+    radius: 4
     color: Theme.base
     border.width: 1
     border.color: Theme.border
@@ -51,13 +51,13 @@ Rectangle {
         Rectangle {
             Layout.fillWidth: true
             height: 6 * root.uiScale
-            radius: 0
-            color: Theme.border
+            radius: 2
+            color: Theme.mantle
 
             Rectangle {
                 width: parent.width * Math.max(0, Math.min(100, root.value)) / 100
                 height: parent.height
-                radius: 0
+                radius: 2
                 color: root.active ? root.fillColor : Theme.border
             }
         }
