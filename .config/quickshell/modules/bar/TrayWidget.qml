@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.SystemTray
+import Quickshell.Widgets
 import "../../components"
 import "../../services"
 
@@ -13,35 +14,54 @@ ColumnLayout {
     property bool isOpen: false
 
     // Background applications list
-    ColumnLayout {
-        id: trayList
-        Layout.alignment: Qt.AlignHCenter
-        visible: root.isOpen
-        opacity: root.isOpen ? 1 : 0
-        spacing: 5
+    Item {
+        id: trayListViewport
 
-        Behavior on opacity {
+        property real animatedHeight: root.isOpen ? trayList.implicitHeight : 0
+
+        Layout.alignment: Qt.AlignHCenter
+        Layout.preferredWidth: 24
+        Layout.preferredHeight: animatedHeight
+        clip: true
+
+        Behavior on animatedHeight {
             NumberAnimation {
-                duration: 200
+                duration: 210
+                easing.type: Easing.OutCubic
             }
         }
 
-        Repeater {
-            model: SystemTray.items
+        ColumnLayout {
+            id: trayList
 
-            delegate: Image {
-                Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: 20
-                Layout.preferredHeight: 20
-                source: modelData.icon
-                fillMode: Image.PreserveAspectFit
-                opacity: trayMouse.containsMouse ? 1.0 : 0.82
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            spacing: 5
+            opacity: root.isOpen ? 1 : 0
 
-                MouseArea {
-                    id: trayMouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: modelData.activate()
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 140
+                }
+            }
+
+            Repeater {
+                model: SystemTray.items
+
+                delegate: IconImage {
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.preferredWidth: 22
+                    Layout.preferredHeight: 22
+                    implicitSize: 22
+                    source: modelData.icon
+                    opacity: trayMouse.containsMouse ? 1.0 : 0.82
+
+                    MouseArea {
+                        id: trayMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: modelData.activate()
+                    }
                 }
             }
         }

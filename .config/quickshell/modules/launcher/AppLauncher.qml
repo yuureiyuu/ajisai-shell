@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import "../launcher/LauncherWindow.qml"
 
 Scope {
     id: root
@@ -36,10 +37,6 @@ Scope {
 
     LauncherModel {
         id: launcherData
-    }
-
-    LauncherHotZone {
-        launcher: root
     }
 
     Loader {

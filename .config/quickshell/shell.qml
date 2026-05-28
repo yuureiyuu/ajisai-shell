@@ -5,6 +5,7 @@ import "./modules/session/"
 import "./modules/launcher/"
 import "./modules/lock/"
 import "./modules/systemMonitor/"
+import "./modules/island/"
 
 ShellRoot {
     LockScreen {
@@ -35,6 +36,11 @@ ShellRoot {
 
     SystemMonitor {
         id: systemMonitor
+    }
+
+    BottomIsland {
+        appLauncher: appLauncher
+        systemMonitor: systemMonitor
     }
 }
 //Quickshell Types: "https://quickshell.org/docs/v0.2.1/types"

@@ -6,6 +6,7 @@ import "../../services"
 PanelWindow {
     id: root
     signal powerClicked
+    signal rightPanelClicked
 
     anchors {
         top: true
@@ -18,7 +19,7 @@ PanelWindow {
 
     RectangularShadow {
         anchors.fill: barSurface
-        radius: barSurface.radius
+        radius: 0
         blur: 14
         spread: 0
         offset: Qt.vector2d(-2, 0)
@@ -36,7 +37,7 @@ PanelWindow {
         }
         width: 69
         color: Qt.alpha(Theme.mantle, 0.94)
-        radius: 4
+        radius: 0
         border.width: 0
 
         Rectangle {
@@ -104,6 +105,7 @@ PanelWindow {
     // 2. WORKSPACE
     WorkspaceWidget {
         anchors.centerIn: barSurface
+        width: 50
     }
 
     // 3. TRAY
@@ -111,18 +113,34 @@ PanelWindow {
         id: trayWidget
         anchors.bottom: batteryWidget.top
         anchors.horizontalCenter: barSurface.horizontalCenter
-        anchors.bottomMargin: 15
+        anchors.bottomMargin: batteryWidget.hovered ? 39 : 15
+
+        Behavior on anchors.bottomMargin {
+            NumberAnimation {
+                duration: 190
+                easing.type: Easing.OutCubic
+            }
+        }
     }
 
     // 4. BATTERY
     BatteryWidget {
         id: batteryWidget
-        anchors.bottom: powerWidget.top
+        anchors.bottom: rightPanelButton.top
         anchors.horizontalCenter: barSurface.horizontalCenter
         anchors.bottomMargin: 15
     }
 
-    // 5. POWER
+    // 5. RIGHT PANEL
+    RightPanelButton {
+        id: rightPanelButton
+        anchors.bottom: powerWidget.top
+        anchors.horizontalCenter: barSurface.horizontalCenter
+        anchors.bottomMargin: 15
+        onClicked: root.rightPanelClicked()
+    }
+
+    // 6. POWER
     PowerWidget {
         id: powerWidget
         anchors.bottom: parent.bottom

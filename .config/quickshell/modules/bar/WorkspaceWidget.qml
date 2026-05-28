@@ -113,8 +113,6 @@ Item {
                     font.pixelSize: 25
                     font.weight: Font.DemiBold
                     font.letterSpacing: 0
-                    style: Text.Outline
-                    styleColor: Theme.mantle
                 }
             }
         }

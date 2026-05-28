@@ -1,8 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Widgets
 import Quickshell.Wayland
 import "../../services"
 import "../../components"
@@ -42,12 +44,22 @@ PanelWindow {
             onClicked: launcher.close()
         }
 
+        RectangularShadow {
+            anchors.fill: launcherCard
+            radius: launcherCard.radius
+            blur: 16
+            spread: 0
+            offset: Qt.vector2d(0, 4)
+            color: "#30000000"
+            cached: true
+        }
+
         Rectangle {
             id: launcherCard
 
-            property real shownBottomMargin: 72
+            property real shownBottomMargin: 64
             width: Math.min(parent.width - 48, 640)
-            height: dataModel && dataModel.wallpaperMode ? 210 : Math.min(parent.height * 0.72, 560)
+            height: dataModel && dataModel.wallpaperMode ? 236 : Math.min(parent.height * 0.72, 560)
             radius: 4
             color: Theme.base
             border.width: 1
@@ -94,14 +106,14 @@ PanelWindow {
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 18
-                spacing: 14
+                spacing: root.dataModel && root.dataModel.wallpaperMode ? 12 : 14
 
                 ListView {
                     id: resultsView
 
                     Layout.fillWidth: true
                     Layout.fillHeight: !root.dataModel.wallpaperMode
-                    Layout.preferredHeight: root.dataModel.wallpaperMode ? 122 : -1
+                    Layout.preferredHeight: root.dataModel.wallpaperMode ? 120 : -1
                     clip: true
                     spacing: 8
                     boundsBehavior: Flickable.StopAtBounds
@@ -109,35 +121,67 @@ PanelWindow {
                     model: root.dataModel ? root.dataModel.filteredModel : []
                     orientation: root.dataModel && root.dataModel.wallpaperMode ? ListView.Horizontal : ListView.Vertical
 
-                    delegate: Rectangle {
+                    delegate: Item {
+                        id: itemRoot
+
                         required property var modelData
                         required property int index
 
                         width: root.dataModel && root.dataModel.wallpaperMode ? 120 : resultsView.width
                         height: root.dataModel && root.dataModel.wallpaperMode ? 110 : 68
-                        radius: 0
-                        color: ListView.isCurrentItem ? Theme.surface : Theme.mantle
-                        border.width: ListView.isCurrentItem ? 1 : 0
-                        border.color: Theme.border
+
+                        RectangularShadow {
+                            visible: root.dataModel && root.dataModel.wallpaperMode
+                            anchors.fill: itemSurface
+                            radius: itemSurface.radius
+                            blur: itemRoot.ListView.isCurrentItem ? 10 : 7
+                            spread: 0
+                            offset: Qt.vector2d(0, itemRoot.ListView.isCurrentItem ? 2 : 1)
+                            color: itemRoot.ListView.isCurrentItem ? Qt.alpha(Theme.accent, 0.14) : "#18000000"
+                            cached: true
+                        }
+
+                        Rectangle {
+                            id: itemSurface
+
+                            anchors.fill: parent
+                            anchors.leftMargin: root.dataModel && root.dataModel.wallpaperMode ? 4 : 0
+                            anchors.rightMargin: root.dataModel && root.dataModel.wallpaperMode ? 4 : 0
+                            anchors.topMargin: root.dataModel && root.dataModel.wallpaperMode ? 2 : 1
+                            anchors.bottomMargin: root.dataModel && root.dataModel.wallpaperMode ? 4 : 3
+                            radius: root.dataModel && root.dataModel.wallpaperMode ? 4 : 3
+                            color: "transparent"
+                            border.width: 0
+                        }
 
                         RowLayout {
                             visible: !(root.dataModel && root.dataModel.wallpaperMode)
-                            anchors.fill: parent
+                            anchors.fill: itemSurface
                             anchors.leftMargin: 16
                             anchors.rightMargin: 16
                             spacing: 14
 
                             Rectangle {
+                                Layout.preferredWidth: 2
+                                Layout.preferredHeight: 34
+                                radius: 1
+                                color: Theme.accent
+                                opacity: itemRoot.ListView.isCurrentItem ? 0.72 : 0
+
+                                Behavior on opacity {
+                                    NumberAnimation {
+                                        duration: 120
+                                    }
+                                }
+                            }
+
+                            Item {
                                 Layout.preferredWidth: 34
                                 Layout.preferredHeight: 34
-                                radius: 0
-                                color: Theme.mantle
 
-                                Image {
+                                IconImage {
                                     anchors.centerIn: parent
-                                    width: 24
-                                    height: 24
-                                    fillMode: Image.PreserveAspectFit
+                                    implicitSize: 30
                                     asynchronous: true
                                     source: modelData.kind === "wallpaper" ? modelData.fileUrl : Quickshell.iconPath(modelData.icon || "application-x-executable", "image-missing")
                                 }
@@ -167,16 +211,18 @@ PanelWindow {
 
                         Column {
                             visible: root.dataModel && root.dataModel.wallpaperMode
-                            anchors.fill: parent
-                            anchors.margins: 8
+                            anchors.fill: itemSurface
+                            anchors.margins: 4
                             spacing: 6
 
                             Rectangle {
                                 width: parent.width
                                 height: 82
-                                color: Theme.mantle
-                                border.width: ListView.isCurrentItem ? 1 : 0
+                                radius: 4
+                                color: Qt.alpha(Theme.mantle, 0.22)
+                                border.width: itemRoot.ListView.isCurrentItem ? 1 : 0
                                 border.color: Theme.accent
+                                clip: true
 
                                 Image {
                                     anchors.fill: parent
@@ -216,7 +262,8 @@ PanelWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 56
-                    radius: 0
+                    Layout.bottomMargin: root.dataModel && root.dataModel.wallpaperMode ? 6 : 0
+                    radius: 4
                     color: Theme.mantle
                     border.width: 1
                     border.color: Theme.border

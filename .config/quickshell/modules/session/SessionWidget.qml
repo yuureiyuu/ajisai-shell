@@ -172,14 +172,15 @@ PanelWindow {
 
             SessionButton {
                 id: btnGif
-                text: "i see you"
+                text: "bye-bye"
                 isGif: true
-                iconSource: "../../assets/ougi-oshino.png"
+                iconSource: "../../assets/frieren-spining.gif"
+                imageScale: 1.23
                 KeyNavigation.up: btnPowerOff
                 KeyNavigation.left: btnSleep
                 KeyNavigation.right: btnLock
                 onClicked: {
-                    console.log("Ougi sees you.");
+                    console.log("Ehehehe");
                     root.dismiss();
                 }
                 onEscapePressed: root.dismiss()

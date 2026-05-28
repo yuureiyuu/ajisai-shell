@@ -9,6 +9,7 @@ Item {
     property var iconSource: ""
     property string iconGlyph: ""
     property bool isGif: false
+    property real imageScale: 1.0
     signal clicked
     signal hoverEntered
     signal hoverExited
@@ -49,7 +50,7 @@ Item {
         anchors.centerIn: parent
         width: 64
         height: 64
-        scale: root.iconGlyph.length ? 1.0 : (root.active ? 1.1 : 1.0)
+        scale: root.iconGlyph.length ? 1.0 : root.imageScale * (root.active ? 1.1 : 1.0)
         Behavior on scale {
             NumberAnimation {
                 duration: 150
@@ -96,7 +97,11 @@ Item {
         id: gifComponent
         AnimatedImage {
             source: root.iconSource
+            sourceSize.width: 160
+            sourceSize.height: 160
             fillMode: Image.PreserveAspectFit
+            smooth: true
+            mipmap: true
         }
     }
 
