@@ -8,6 +8,7 @@ PanelWindow {
 
     required property var appLauncher
     required property var systemMonitor
+    required property var dashboard
 
     signal dashboardClicked
     signal settingsClicked
@@ -86,6 +87,7 @@ PanelWindow {
                     id: dashboardButton
 
                     iconName: "warehouse"
+                    active: root.dashboard.open
                     onClicked: root.dashboardClicked()
                 }
 

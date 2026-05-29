@@ -6,6 +6,7 @@ import "./modules/launcher/"
 import "./modules/lock/"
 import "./modules/systemMonitor/"
 import "./modules/island/"
+import "./modules/dashboard/"
 
 ShellRoot {
     LockScreen {
@@ -18,12 +19,18 @@ ShellRoot {
             sessionWidget.visible = false;
             appLauncher.close();
             systemMonitor.close();
+            dashboard.close();
         }
+    }
+
+    Dashboard {
+        id: dashboard
     }
 
     Sidebar {
         visible: !sessionWidget.visible && !lockScreen.locked && !LockState.pendingLock
         onPowerClicked: sessionWidget.toggle()
+        onRightPanelClicked: dashboard.toggle()
     }
 
     AppLauncher {
@@ -40,7 +47,9 @@ ShellRoot {
 
     BottomIsland {
         appLauncher: appLauncher
+        dashboard: dashboard
         systemMonitor: systemMonitor
+        onDashboardClicked: dashboard.toggle()
     }
 }
 //Quickshell Types: "https://quickshell.org/docs/v0.2.1/types"
